@@ -5,8 +5,8 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = CalcUtil
 
-CalcHaptics_FILES = Tweak.xm
-CalcHaptics_CFLAGS = -fobjc-arc
-CalcHaptics_FRAMEWORKS = AudioToolbox
+CalcUtil_FILES = Tweak.xm
+CalcUtil_CFLAGS = -fobjc-arc
+CalcUtil_FRAMEWORKS = AudioToolbox
 
 include $(THEOS_MAKE_PATH)/tweak.mk
