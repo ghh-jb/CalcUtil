@@ -1,0 +1,9 @@
+Package: c.ghh.calcutil
+Name: CalcUtil
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Little useful (useless?) features for stock calculator app.
+Maintainer: untether
+Author: untether
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000)
