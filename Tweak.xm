@@ -1,26 +1,40 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <Foundation/Foundation.h>
 
-// KeypadView
-@interface _TtC10Calculator20CalculatorKeypadView :NSObject
+// ViewController
+@interface _TtC10Calculator21DisplayViewController : NSObject
 {
-	// none
+    int maximumResultDigits;
 }
-- (void)touchesEnded:(id)arg1 withEvent:(id)arg2;
-- (void)touchesMoved:(id)arg1 withEvent:(id)arg2;
+- (void)loadView;
+@end
+
+// DisplayView
+@interface _TtC10Calculator11DisplayView : NSObject
+{
+    int maximumResultDigits;
+}
+- (void)layoutSubviews;
+@end
+
+// Controller
+@interface _TtC10Calculator20CalculatorController : NSObject
+{
+	int maxLandscapeDigits;
+}
+- (void)viewDidLoad;
 @end
 
 // Model
 @interface _TtC10Calculator15CalculatorModel : NSObject
 { 
 	int maximumDigitCount;
-
 }
 - (void)buttonPressed:(long long)arg1;
 @end
 
 // NumberFormatter
-@interface _TtC10Calculator25CalculatorNumberFormatter
+@interface _TtC10Calculator25CalculatorNumberFormatter : NSObject
 {
     int maximumDigitCount;
 }
@@ -28,16 +42,33 @@
 @end
 
 
-// KeypadView
-%hook _TtC10Calculator20CalculatorKeypadView
-- (void)touchesEnded:(id)arg1 withEvent:(id)arg2 {
-	AudioServicesPlaySystemSound(1519);
+// ViewController
+%hook _TtC10Calculator21DisplayViewController
+- (void)loadView {
 	%orig;
+	MSHookIvar<int>(self, "maximumResultDigits") = 100;
 	return;
 }
-- (void)touchesMoved:(id)arg1 withEvent:(id)arg2 {
-	AudioServicesPlaySystemSound(1519);
+
+%end
+
+
+//DisplayView
+%hook _TtC10Calculator11DisplayView
+- (void)layoutSubviews {
 	%orig;
+	MSHookIvar<int>(self, "maximumResultDigits") = 100;
+	return;
+}
+
+%end
+
+
+// Controller
+%hook _TtC10Calculator20CalculatorController
+- (void)viewDidLoad {
+	%orig;
+	MSHookIvar<int>(self, "maxLandscapeDigits") = 100;
 	return;
 }
 
@@ -47,9 +78,11 @@
 // Model
 %hook _TtC10Calculator15CalculatorModel
 - (id)buttonPressed:(long long)arg1 {
-	id ret = %orig;
 	MSHookIvar<int>(self, "maximumDigitCount") = 100; 
+	id ret = %orig;
 	// probably allow input of "endless" amount of digits
+	AudioServicesPlaySystemSound(1519);
+
 	return ret;
 }
 
@@ -66,6 +99,7 @@
 }
 
 %end
+
 
 // ...
 %ctor {
